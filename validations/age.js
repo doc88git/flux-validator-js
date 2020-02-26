@@ -1,25 +1,27 @@
-import utils from "../utils/utils";
-
 export default (name, {value, condition, age}) => {
-  let field = {
+  const field = {
     name: name,
     valid: true
   }
+  const today = new Date()
 
-  const birthDate = new Date(value);
-  const today = new Date();
-  const localAge = today.getFullYear() - birthDate.getFullYear();
-  const month = today.getMonth() - birthDate.getMonth();
+  const now = (y) =>{
+    const year = today.getFullYear() - y
+    return today.setFullYear(year)
+  }
+
+  const teste = now(age) - value
 
   const validateAge = {
-    '===': () => localAge === age,
-    '!==': () => localAge !== age,
-    '>=': () => localAge >= age,
-    '>': () => localAge > age,
-    '<=': () => localAge <= age,
-    '<': () => localAge < age,
+    '===': () => value === now(age),
+    '!==': () => value !== now(age),
+    '>=': () => value >= now(age),
+    '>': () => value > now(age),
+    '<=': () => value <= now(age),
+    '<': () => value < now(age),
     'default': () => false
   }
+
 
   field.valid = (validateAge[condition] || validateAge['default'])()
   return field
